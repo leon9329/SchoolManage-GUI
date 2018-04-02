@@ -13,7 +13,7 @@ public class SchoolManage {
 	JButton btn2 = new JButton("학생 모드");
 	JButton btn3 = new JButton("교수 모드");
 	JButton btn4 = new JButton("종료");
-	
+	//testing
 	SchoolManage(){
 		
 		btn4.addActionListener(new ActionListener() {
