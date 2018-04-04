@@ -39,7 +39,7 @@ public class ManageMode extends JFrame implements ActionListener {
 		managerCP.add(jp1, "West");
 		managerCP.add(loginBtn, "East");
 
-		setLocation(1000, 400);
+		setLocation(700, 400);
 		setSize(300, 150);
 		setResizable(false);
 		setVisible(true);
@@ -66,10 +66,5 @@ public class ManageMode extends JFrame implements ActionListener {
 		}
 		
 
-//		if (id.equals(HOST_ID) && password.equals(HOST_PASSWROD))
-//			manager.ManagerView();
-//		else
-//			System.out.println("id or password Error!");
-//		break;
 	}
 }
