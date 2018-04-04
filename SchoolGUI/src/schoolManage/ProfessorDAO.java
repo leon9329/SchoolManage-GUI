@@ -1,13 +1,10 @@
 package schoolManage;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Scanner;
-import java.util.Set;
+import java.util.Vector;
 
 //professor DAO
 public class ProfessorDAO {
-	ArrayList<ProfessorDTO> proList = new ArrayList<>();
+	Vector<ProfessorDTO> proList = new Vector<>();
 	Scanner sc = new Scanner(System.in);
 	int num; // ∞¥√º ¿Œµ¶Ω∫
 

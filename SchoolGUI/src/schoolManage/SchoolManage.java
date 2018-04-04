@@ -14,15 +14,18 @@ import javax.swing.JTable;
 import javax.swing.border.Border;
 
 public class SchoolManage extends JFrame implements ActionListener {
-
+	
 	JButton btn1 = new JButton("관리자 모드");
 	JButton btn2 = new JButton("학생 모드");
 	JButton btn3 = new JButton("교수 모드");
 	JButton btn4 = new JButton("종료");
 	Container contentPane = getContentPane();
 	JPanel jp = new JPanel();
+	
+//	SchoolMain schoolMain = new SchoolMain();	//콘솔에서 메인이었던 클래스.
 
 	SchoolManage() {
+		
 
 		btn4.addActionListener(new ActionListener() {
 
@@ -55,7 +58,7 @@ public class SchoolManage extends JFrame implements ActionListener {
 		// TODO Auto-generated method stub
 		if (e.getSource() == btn1) {
 
-			ManageMode manageMode = new ManageMode(this);
+			ManageMode manageMode = new ManageMode();
 			setVisible(false);
 
 		} else if (e.getSource() == btn2) {

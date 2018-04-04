@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class ManageMode extends JFrame implements ActionListener {
-	private SchoolManage f;
+//	SchoolMain schoolMain;
 
 	JTextField id = new JTextField(8);
 	JTextField password = new JTextField(8);
@@ -24,10 +24,11 @@ public class ManageMode extends JFrame implements ActionListener {
 	JPanel jp1 = new JPanel(new GridLayout(2, 1));
 	JButton loginBtn = new JButton("로그인");
 
-	public ManageMode(SchoolManage f) {
+	public ManageMode() {
 		// TODO Auto-generated constructor stub
 		super("관리자 모드");
-		this.f = f;
+		
+//		this.schoolMain = schoolMain;//메인 객체 얻어오기
 
 		jp.add(id);
 		jp.add(password);
@@ -55,7 +56,6 @@ public class ManageMode extends JFrame implements ActionListener {
 		
 		if(id.getText().equals(SchoolMain.HOST_ID) 
 				&& password.getText().equals(SchoolMain.HOST_PASSWROD)) {
-			
 			JOptionPane.showMessageDialog(this, "로그인 성공");
 			ManagerView mv = new ManagerView();
 			setVisible(false);

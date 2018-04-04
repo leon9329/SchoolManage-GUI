@@ -1,14 +1,12 @@
 package schoolManage;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
+import java.util.Vector;
 
 //Student DAO
 public class StudentDAO {
-	ArrayList<StudentDTO> stuList = new ArrayList<StudentDTO>();
+	Vector<StudentDTO> stuList = new Vector<StudentDTO>();
 	int num; // get에서 얻어온 i값 저장
 
 	StudentDAO() {// 디폴트 학생 + id 디폴트 비번 = 1111
