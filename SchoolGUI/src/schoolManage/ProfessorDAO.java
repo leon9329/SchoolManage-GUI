@@ -11,13 +11,13 @@ public class ProfessorDAO {
 	ProfessorDAO() {
 		proList.add(new ProfessorDTO("aa","홍길동", "남", "50", "수학"));
 		SchoolMain.IDList.add("aa");
-		proList.add(new ProfessorDTO("장발산", "남", "55", "과학"));
+		proList.add(new ProfessorDTO("bb","장발산", "남", "55", "과학"));
 		SchoolMain.IDList.add("bb");
-		proList.add(new ProfessorDTO("오나미", "여", "53", "영어"));
+		proList.add(new ProfessorDTO("cc","오나미", "여", "53", "영어"));
 		SchoolMain.IDList.add("cc");
-		proList.add(new ProfessorDTO("김관진", "남", "51", "체육"));
+		proList.add(new ProfessorDTO("dd","김관진", "남", "51", "체육"));
 		SchoolMain.IDList.add("dd");
-		proList.add(new ProfessorDTO("오수미", "여", "52", "컴퓨터"));
+		proList.add(new ProfessorDTO("ee","오수미", "여", "52", "컴퓨터"));
 		SchoolMain.IDList.add("ee");
 	}
 

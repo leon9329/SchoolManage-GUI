@@ -10,16 +10,16 @@ public class StudentDAO {
 	int num; // get에서 얻어온 i값 저장
 
 	StudentDAO() {// 디폴트 학생 + id 디폴트 비번 = 1111
-		stuList.add(new StudentDTO("a", "1", "홍길동", "남", "20"));
+		stuList.add(new StudentDTO("a", "2011151039", "홍길동", "남", "20"));
 		SchoolMain.IDList.add("a");
-		stuList.add(new StudentDTO("b", "2", "정우성", "남", "26"));
+		stuList.add(new StudentDTO("b", "2015352105", "정우성", "남", "26"));
 		SchoolMain.IDList.add("b");
-		stuList.add(new StudentDTO("c", "3", "김현아", "여", "25"));
+		stuList.add(new StudentDTO("c", "2013322319", "김현아", "여", "25"));
 		SchoolMain.IDList.add("c");
-		stuList.add(new StudentDTO("d", "4", "김지원", "여", "24"));
+		stuList.add(new StudentDTO("d", "2015751486", "김지원", "여", "24"));
 		SchoolMain.IDList.add("d");
-		stuList.add(new StudentDTO("e", "5", "황우석", "여", "23"));
-		SchoolMain.IDList.add("e");
+//		stuList.add(new StudentDTO("e", "2012484265", "황우석", "여", "23"));
+//		SchoolMain.IDList.add("e");
 	}
 
 	Scanner sc = new Scanner(System.in);
