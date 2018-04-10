@@ -150,7 +150,7 @@ public class LoginView extends JFrame implements ActionListener {
 				pw = pwfield.getText();
 				connectDB();
 				if (passwordCompare(2)) {
-					JOptionPane.showMessageDialog(this, "매니저 로그인 성공");
+					JOptionPane.showMessageDialog(this, "관리자 로그인 성공");
 				} else {
 					JOptionPane.showMessageDialog(this, "로그인 실패");
 				}
