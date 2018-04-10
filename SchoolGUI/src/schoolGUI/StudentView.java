@@ -3,6 +3,8 @@ package schoolGUI;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -10,17 +12,35 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class StudentView extends JFrame{
+public class StudentView extends JFrame implements ActionListener{
 	Font font;
 	
 	JLabel mainLabel,lb1,lb2,lb3,lb4,lb5,lb6,lb7,lb8;
 	
 
-	JTextField tf1,tf2,tf3,tf4,tf5,tf6,tf7,tf8;
+	
 	
 	JButton updateBtn,completeBtn;
 	
 	JPanel mainPanel,panel0,panel1,panel2,panel3,panel4,panel5,panel6,panel7,panel8,updatePN;
+	
+	JTextField tf1 = new JTextField(10);
+	
+	JTextField tf2 = new JTextField(10);
+	
+	JTextField tf3 = new JTextField(10);
+	
+	JTextField tf4 = new JTextField(10);
+	
+	JTextField tf5 = new JTextField(10);
+	
+	JTextField tf6 = new JTextField(10);
+	
+	JTextField tf7 = new JTextField(10);
+	
+	JTextField tf8 = new JTextField(10);
+	
+	
 	
 	
 	public StudentView() {
@@ -50,40 +70,27 @@ public class StudentView extends JFrame{
 		lb2 = new JLabel("학번");
 		lb3 = new JLabel("이름");
 		lb4 = new JLabel("전화번호");
-		lb8 = new JLabel("주소");
-		lb5 = new JLabel("Email");
-		lb6 = new JLabel("전공");
-		lb7 = new JLabel("비밀번호");
+		lb5 = new JLabel("주소");
+		lb6 = new JLabel("Email");
+		lb7 = new JLabel("전공");
+		lb8 = new JLabel("비밀번호");
 		
-		tf1 = new JTextField(10);
-		tf1.setEditable(false);
-		
-		tf2 = new JTextField(10);
-		tf2.setEditable(false);
-		
-		tf3 = new JTextField(10);
-		tf3.setEditable(false);
-		
-		tf4 = new JTextField(10);
-		tf4.setEditable(false);
-		
-		tf5 = new JTextField(10);
-		tf5.setEditable(false);
-		
-		tf6 = new JTextField(10);
-		tf6.setEditable(false);
-		
-		tf7 = new JTextField(10);
-		tf7.setEditable(false);
-		
-		tf8 = new JTextField(10);
-		tf8.setEditable(false);
 		
 		updateBtn = new JButton("수정");
 		completeBtn = new JButton("완료");
 		
 		updatePN.add(updateBtn);
 		updatePN.add(completeBtn);
+		
+		tf1.setEditable(false);
+		tf2.setEditable(false);
+		tf3.setEditable(false);
+		tf4.setEditable(false);
+		tf5.setEditable(false);
+		tf6.setEditable(false);
+		tf7.setEditable(false);
+		tf8.setEditable(false);
+
 		
 		
 		panel0.add(mainLabel);
@@ -127,6 +134,25 @@ public class StudentView extends JFrame{
 		setBounds(600, 200, 600, 600);
 		setVisible(true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE );
+		
+		updateBtn.addActionListener(this);
+		completeBtn.addActionListener(this);
+		
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource().equals(updateBtn)) {
+			tf3.setEditable(true);
+			tf4.setEditable(true);
+			tf5.setEditable(true);
+			tf6.setEditable(true);
+			
+		}else if(e.getSource().equals(completeBtn)) {
+			
+			
+		}
 	}
 	
 	public static void main(String[] args) {
