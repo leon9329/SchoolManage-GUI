@@ -44,7 +44,7 @@ public class LoginView extends JFrame implements ActionListener {
 	JLabel pwLabel;
 
 	JTextField idField;
-	JTextField pwfield;
+	JPasswordField pwfield;
 
 	ButtonGroup bg;
 	JRadioButton studentCheck;

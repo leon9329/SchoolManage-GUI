@@ -22,6 +22,8 @@ public class StudentView extends JFrame implements ActionListener {
 	String url = "jdbc:oracle:thin:@localhost:1521:xe";
 
 	String sql;
+	String pw;
+	
 	Connection con = null;
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
@@ -74,14 +76,14 @@ public class StudentView extends JFrame implements ActionListener {
 		mainLabel = new JLabel("프로필");
 		mainLabel.setFont(font);
 
-		lb1 = new JLabel("id");
-		lb2 = new JLabel("학번");
-		lb3 = new JLabel("이름");
-		lb4 = new JLabel("전화번호");
-		lb5 = new JLabel("주소");
-		lb6 = new JLabel("Email");
-		lb7 = new JLabel("전공");
-		lb8 = new JLabel("비밀번호");
+		lb1 = new JLabel("id",JLabel.CENTER);
+		lb2 = new JLabel("학번",JLabel.CENTER);
+		lb3 = new JLabel("이름",JLabel.CENTER);
+		lb4 = new JLabel("전화번호",JLabel.CENTER);
+		lb5 = new JLabel("주소",JLabel.CENTER);
+		lb6 = new JLabel("Email",JLabel.CENTER);
+		lb7 = new JLabel("전공",JLabel.CENTER);
+		lb8 = new JLabel("비밀번호",JLabel.CENTER);
 
 		updateBtn = new JButton("수정");
 		completeBtn = new JButton("완료");
@@ -166,6 +168,7 @@ public class StudentView extends JFrame implements ActionListener {
 				tf6.setText(rs.getString(6));
 				tf7.setText(rs.getString(7));
 //				tf8.setText("**********");
+				pw = rs.getString(8);
 
 			}
 
@@ -231,7 +234,7 @@ public class StudentView extends JFrame implements ActionListener {
 			tf6.setEditable(false);
 
 		}else if(e.getSource().equals(pwdUpdateBtn)) {
-			
+			UpdatePasswordView upw = new UpdatePasswordView(pw);
 		}
 	}
 
