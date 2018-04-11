@@ -30,7 +30,7 @@ public class StudentView extends JFrame implements ActionListener {
 
 	JLabel mainLabel, lb1, lb2, lb3, lb4, lb5, lb6, lb7, lb8;
 
-	JButton updateBtn, completeBtn;
+	JButton updateBtn, completeBtn, pwdUpdateBtn;
 
 	JPanel mainPanel, panel0, panel1, panel2, panel3, panel4, panel5, panel6, panel7, panel8, updatePN;
 
@@ -85,6 +85,7 @@ public class StudentView extends JFrame implements ActionListener {
 
 		updateBtn = new JButton("수정");
 		completeBtn = new JButton("완료");
+		pwdUpdateBtn = new JButton("변경");
 
 		updatePN.add(updateBtn);
 		updatePN.add(completeBtn);
@@ -96,7 +97,7 @@ public class StudentView extends JFrame implements ActionListener {
 		tf5.setEditable(false);
 		tf6.setEditable(false);
 		tf7.setEditable(false);
-		tf8.setEditable(false);
+//		tf8.setEditable(false);
 
 		panel0.add(mainLabel);
 
@@ -122,7 +123,7 @@ public class StudentView extends JFrame implements ActionListener {
 		panel7.add(tf7);
 
 		panel8.add(lb8);// 비밀번호
-		panel8.add(tf8);
+		panel8.add(pwdUpdateBtn);
 
 		mainPanel.add(panel1);
 		mainPanel.add(panel2);
@@ -142,6 +143,7 @@ public class StudentView extends JFrame implements ActionListener {
 
 		updateBtn.addActionListener(this);
 		completeBtn.addActionListener(this);
+		pwdUpdateBtn.addActionListener(this);
 
 		showInfo();
 
@@ -163,7 +165,7 @@ public class StudentView extends JFrame implements ActionListener {
 				tf5.setText(rs.getString(5));
 				tf6.setText(rs.getString(6));
 				tf7.setText(rs.getString(7));
-				tf8.setText("**********");
+//				tf8.setText("**********");
 
 			}
 
@@ -228,6 +230,8 @@ public class StudentView extends JFrame implements ActionListener {
 			tf5.setEditable(false);
 			tf6.setEditable(false);
 
+		}else if(e.getSource().equals(pwdUpdateBtn)) {
+			
 		}
 	}
 
