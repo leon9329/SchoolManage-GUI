@@ -1,10 +1,14 @@
 package schoolGUI;
 
-import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,7 +17,17 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class StudentView extends JFrame implements ActionListener{
+	String driver = "oracle.jdbc.driver.OracleDriver";
+	String url = "jdbc:oracle:thin:@localhost:1521:xe";
+	
+	String sql;
+	Connection con = null;
+	PreparedStatement pstmt = null;
+	ResultSet rs = null;
+	
 	Font font;
+	
+	
 	
 	JLabel mainLabel,lb1,lb2,lb3,lb4,lb5,lb6,lb7,lb8;
 	
@@ -43,8 +57,10 @@ public class StudentView extends JFrame implements ActionListener{
 	
 	
 	
-	public StudentView() {
+	public StudentView(ResultSet rs) {
 		super("학생 정보");
+		
+		this.rs = rs;
 		
 		font = new Font("돋움", Font.BOLD, 20);
 
@@ -138,6 +154,27 @@ public class StudentView extends JFrame implements ActionListener{
 		updateBtn.addActionListener(this);
 		completeBtn.addActionListener(this);
 		
+		showInfo();
+		
+	}
+	
+	public void showInfo() {
+		connectDB();
+		
+		sql = "select * from Student";
+		try {
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				 tf1.setText(rs.getString(1));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("쿼리문 보내기 실패");
+		}
 	}
 	
 	@Override
@@ -152,12 +189,31 @@ public class StudentView extends JFrame implements ActionListener{
 		}else if(e.getSource().equals(completeBtn)) {
 			
 			
+			
+		}
+	}
+	
+	public void connectDB() {
+		try {
+			Class.forName(driver);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("드라이버 로딩 실패");
+		}
+		
+		try {
+			con = DriverManager.getConnection(url,"scott","tiger");
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("커넥션 연결 실패");
 		}
 	}
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		StudentView lg = new StudentView();
+//		StudentView lg = new StudentView();
 	}
 
 }

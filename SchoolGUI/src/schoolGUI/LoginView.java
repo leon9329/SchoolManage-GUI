@@ -21,18 +21,17 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 public class LoginView extends JFrame implements ActionListener {
-	String id;
-	String pw;
-	String sql;
 
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521:xe";
 
 	Connection con = null;
-
+	ResultSet rs;
 	PreparedStatement pstmt = null;
 
-	ResultSet rs = null;
+	String id;
+	String pw;
+	String sql;
 
 	JPanel pn1;
 	JPanel pn2;
@@ -128,6 +127,8 @@ public class LoginView extends JFrame implements ActionListener {
 				connectDB();
 				if (passwordCompare(0)) {
 					JOptionPane.showMessageDialog(this, "학생 로그인 성공");
+					StudentView st = new StudentView(rs);
+					setVisible(false);
 				} else {
 					JOptionPane.showMessageDialog(this, "로그인 실패");
 				}
