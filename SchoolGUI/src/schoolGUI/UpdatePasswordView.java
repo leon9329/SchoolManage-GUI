@@ -25,8 +25,7 @@ public class UpdatePasswordView extends JFrame implements ActionListener {
 	ResultSet rs = null;
 	PreparedStatement pstmt = null;
 
-	String newPw = null;
-	String originPw = null;
+	String id;
 	String sql = null;
 
 	JLabel lb1, lb2, lb3;
@@ -34,11 +33,12 @@ public class UpdatePasswordView extends JFrame implements ActionListener {
 	JPanel mainPanel, pn1, pn2, pn3, pn4;
 	JButton btn;
 
-	public UpdatePasswordView(String pw) {
+	public UpdatePasswordView(String id) {
 		// TODO Auto-generated constructor stub
 		super("비밀번호 변경");
 
-		originPw = pw;
+		this.id = id;
+//		originPw = pw;
 
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new GridLayout(1, 2));
@@ -122,31 +122,28 @@ public class UpdatePasswordView extends JFrame implements ActionListener {
 
 	public boolean passwordCompare() {
 		boolean test = false;
-//		try {
-//			if (rs.next()) {
-//				originPw = rs.getString("password");// 기존 비밀번호
-//				System.out.println("기존 비번 받아오기 성공");
-//			} else
-//				System.out.println("기존 비번 받아오기 실패");
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			JOptionPane.showMessageDialog(this, "기존 비밀번호 얻어오기 실패");
-//			e.printStackTrace();
-//		}
-		if(originPw.equals(tf1.getText())) {
-			if(tf2.getText().equals(tf3.getText()))
-				test = true;
-			else
-				JOptionPane.showMessageDialog(this, "새 비밀번호 확인");
-		}else {
-			JOptionPane.showMessageDialog(this, "기존 pw를 확인하세요");
+		sql = "select password from student where id=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				if(rs.getString("password").equals(tf1.getText())) {
+					System.out.println("기존 비번 확인완료");
+					if(tf2.getText().equals(tf3.getText())) {
+						test = true;
+					}else {
+						System.out.println("새 비밀번호 불일치");
+					}
+				}else {
+					System.out.println("기존 비번 확인 실패");
+				}
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
-
-//		if (originPw.equals(tf1.getText())) {// 기존 비밀번호가 일치하면
-//			test = true;
-//		} else {
-//			JOptionPane.showMessageDialog(this, "기존 pw를 확인하세요");
-//		}
 		return test;
 	}
 

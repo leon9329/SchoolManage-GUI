@@ -119,6 +119,7 @@ public class LoginView extends JFrame implements ActionListener {
 
 		if (e.getSource() == loginBtn) {
 
+			
 			if (idField.getText().equals("") || pwfield.equals("")) {
 				JOptionPane.showMessageDialog(this, "Input ID/PW");
 			} else if (studentCheck.isSelected()) {

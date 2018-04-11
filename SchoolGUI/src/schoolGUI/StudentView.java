@@ -234,7 +234,7 @@ public class StudentView extends JFrame implements ActionListener {
 			tf6.setEditable(false);
 
 		}else if(e.getSource().equals(pwdUpdateBtn)) {
-			UpdatePasswordView upw = new UpdatePasswordView(pw);
+			UpdatePasswordView upw = new UpdatePasswordView(tf1.getText());
 		}
 	}
 
