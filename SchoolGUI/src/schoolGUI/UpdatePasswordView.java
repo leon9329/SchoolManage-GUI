@@ -117,6 +117,7 @@ public class UpdatePasswordView extends JFrame implements ActionListener {
 		} else {
 			JOptionPane.showMessageDialog(this, "DB 연결 실패");
 		}
+		this.setVisible(false);
 
 	}
 
@@ -130,7 +131,6 @@ public class UpdatePasswordView extends JFrame implements ActionListener {
 			
 			if(rs.next()) {
 				if(rs.getString("password").equals(tf1.getText())) {
-					System.out.println("기존 비번 확인완료");
 					if(tf2.getText().equals(tf3.getText())) {
 						test = true;
 					}else {
