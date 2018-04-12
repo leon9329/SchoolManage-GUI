@@ -143,6 +143,7 @@ public class StudentView extends JFrame implements ActionListener {
 		setVisible(true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
+		setResizable(false);
 		updateBtn.addActionListener(this);
 		completeBtn.addActionListener(this);
 		pwdUpdateBtn.addActionListener(this);

@@ -106,6 +106,8 @@ public class LoginView extends JFrame implements ActionListener {
 		add(mainLabel);
 		add(pn5, "South");
 
+		
+		setResizable(false);
 		setBounds(700, 400, 400, 200);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

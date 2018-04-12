@@ -74,6 +74,8 @@ public class UpdatePasswordView extends JFrame implements ActionListener {
 		add(mainPanel);
 		add(pn4, "South");
 
+		
+		setResizable(false);
 		setBounds(700, 300, 300, 200);
 		setVisible(true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
