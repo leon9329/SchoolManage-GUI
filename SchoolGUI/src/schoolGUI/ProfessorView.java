@@ -17,18 +17,18 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class StudentView extends JFrame implements ActionListener {
+public class ProfessorView extends JFrame implements ActionListener {
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521:xe";
 
 	String sql;
-	String pw;
-	String id;
-	String position = "student";
-	
+	ResultSet rs;
 	Connection con;
 	PreparedStatement pstmt;
-	ResultSet rs;
+	
+	String position = "professor";
+	
+	String id;
 
 	Font font;
 
@@ -54,12 +54,14 @@ public class StudentView extends JFrame implements ActionListener {
 
 	JTextField tf8 = new JTextField(10);
 
-	public StudentView(String id) {
-		super("학생 정보");
-		JOptionPane.showMessageDialog(this, "학생 로그인 성공");
+	ProfessorView(String id) {
+		super("교수 정보");
+		
+		JOptionPane.showMessageDialog(this, "교수 로그인 성공");
 
+		
 		this.id = id;
-
+		
 		font = new Font("돋움", Font.BOLD, 20);
 
 		mainPanel = new JPanel();
@@ -76,16 +78,16 @@ public class StudentView extends JFrame implements ActionListener {
 		panel8 = new JPanel();
 		updatePN = new JPanel();
 
-		mainLabel = new JLabel("프로필");
+		mainLabel = new JLabel("프로필", JLabel.CENTER);
 		mainLabel.setFont(font);
 
 		lb1 = new JLabel("id", JLabel.CENTER);
-		lb2 = new JLabel("학번", JLabel.CENTER);
-		lb3 = new JLabel("이름", JLabel.CENTER);
-		lb4 = new JLabel("전화번호", JLabel.CENTER);
+		lb2 = new JLabel("이름", JLabel.CENTER);
+		lb3 = new JLabel("email", JLabel.CENTER);
+		lb4 = new JLabel("나이", JLabel.CENTER);
 		lb5 = new JLabel("주소", JLabel.CENTER);
-		lb6 = new JLabel("Email", JLabel.CENTER);
-		lb7 = new JLabel("전공", JLabel.CENTER);
+		lb6 = new JLabel("전화", JLabel.CENTER);
+		lb7 = new JLabel("급여", JLabel.CENTER);
 		lb8 = new JLabel("비밀번호", JLabel.CENTER);
 
 		updateBtn = new JButton("수정");
@@ -109,22 +111,22 @@ public class StudentView extends JFrame implements ActionListener {
 		panel1.add(lb1);// id label
 		panel1.add(tf1);// textField
 
-		panel2.add(lb2);// 학번
+		panel2.add(lb2);// 이름
 		panel2.add(tf2);
 
-		panel3.add(lb3);// 이름
+		panel3.add(lb3);// email
 		panel3.add(tf3);
 
-		panel4.add(lb4);// 전화번호
+		panel4.add(lb4);// 나이
 		panel4.add(tf4);
 
 		panel5.add(lb5);// 주소
 		panel5.add(tf5);
 
-		panel6.add(lb6);// 이메일
+		panel6.add(lb6);// 전화
 		panel6.add(tf6);
 
-		panel7.add(lb7);// 전공
+		panel7.add(lb7);// 급여
 		panel7.add(tf7);
 
 		panel8.add(lb8);// 비밀번호
@@ -146,127 +148,111 @@ public class StudentView extends JFrame implements ActionListener {
 		setVisible(true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-		setResizable(false);
 		updateBtn.addActionListener(this);
 		completeBtn.addActionListener(this);
 		pwdUpdateBtn.addActionListener(this);
-
+		
 		showInfo();
-
-	}
-
-	public void showInfo() {
-		connectDB();
-
-		sql = "select * from Student where id=?";
-		try {
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, id);
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				tf1.setText(rs.getString(1));
-				tf2.setText(rs.getString(2));
-				tf3.setText(rs.getString(3));
-				tf4.setText(rs.getString(4));
-				tf5.setText(rs.getString(5));
-				tf6.setText(rs.getString(6));
-				tf7.setText(rs.getString(7));
-				// tf8.setText("**********");
-//				pw = rs.getString(8);
-
-			}
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("쿼리문 보내기 실패");
-		}
-	}
-
-	void UpdateInfo() {
-		try {
-			sql = "update student set name=?,phone=?,address=?,email=? where id=?";
-			
-			pstmt = con.prepareStatement(sql);
-			
-			pstmt.setString(1, tf3.getText());
-			pstmt.setString(2, tf4.getText());
-			pstmt.setString(3, tf5.getText());
-			pstmt.setString(4, tf6.getText());
-			pstmt.setString(5, id);
-
-			int result = pstmt.executeUpdate();
-			if (result == 1) {
-				JOptionPane.showMessageDialog(this, "Update success");
-			} else {
-				JOptionPane.showMessageDialog(this, "Update failed");
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.toString();
-			System.out.println("failed Update");
-		} finally {
-			try {
-				if (pstmt != null) {
-					pstmt.close();
-					System.out.println("pstmt closed");
-				}
-				if (con != null) {
-					con.close();
-					System.out.println("con closed");
-				}
-			} catch (Exception e) {
-				e.toString();
-			}
-			showInfo();
-		}
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getSource().equals(updateBtn)) {
+			tf2.setEditable(true);
 			tf3.setEditable(true);
-			tf4.setEditable(true);
-			tf5.setEditable(true);
 			tf6.setEditable(true);
+			tf5.setEditable(true);
 
 		} else if (e.getSource().equals(completeBtn)) {
-			if (tf3.isEditable()) {
-				UpdateInfo();
-			}
+			updateData();
+			tf2.setEditable(false);
 			tf3.setEditable(false);
-			tf4.setEditable(false);
-			tf5.setEditable(false);
 			tf6.setEditable(false);
-
+			tf5.setEditable(false);
 		} else if (e.getSource().equals(pwdUpdateBtn)) {
-			UpdatePasswordView upw = new UpdatePasswordView(id,position);
+			UpdatePasswordView upw = new UpdatePasswordView(id, position);
 		}
+	}
+
+	public void showInfo() {
+		connectDB();
+//		System.out.println("db 연결 완료");
+		try {
+			sql = "select * from professor where id=?"; 
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				tf1.setText(id);
+				tf2.setText(rs.getString(2));
+				tf3.setText(rs.getString(3));
+				tf4.setText(rs.getString(4));
+				tf5.setText(rs.getString(5));
+				tf6.setText(rs.getString(6));
+				tf7.setText(rs.getString(7));
+			}
+		} catch (Exception e) {
+			System.out.println("쿼리문 보내기 실패");
+			e.toString();
+		}
+
 	}
 
 	public void connectDB() {
 		try {
 			Class.forName(driver);
-
-		} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println("driver loading faied");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(this, "driver loading failed");
+			e.printStackTrace();
 		}
 
 		try {
 			con = DriverManager.getConnection(url, "scott", "tiger");
-
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("connection failed");
+			JOptionPane.showMessageDialog(this, "connection failed");
+		}
+	}
+
+	public void updateData() {
+		sql = "update professor set name=?,email=?,phone=?,address=? where id=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, tf2.getText());
+			pstmt.setString(2, tf3.getText());
+			pstmt.setString(3, tf6.getText());
+			pstmt.setString(4, tf7.getText());
+			pstmt.setString(5, id);
+
+			int result = pstmt.executeUpdate();
+			if (result == 1) {
+				JOptionPane.showMessageDialog(this, "Update success");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(this, "Update failed");
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) {
+					pstmt.close();
+
+				}
+				if (con != null) {
+					con.close();
+				}
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
 		}
 	}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		// StudentView lg = new StudentView();
+//		ProfessorView professor = new ProfessorView();
 	}
 
 }

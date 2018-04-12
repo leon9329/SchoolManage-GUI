@@ -27,16 +27,18 @@ public class UpdatePasswordView extends JFrame implements ActionListener {
 
 	String id;
 	String sql = null;
+	String position;
 
 	JLabel lb1, lb2, lb3;
 	JPasswordField tf1, tf2, tf3;
 	JPanel mainPanel, pn1, pn2, pn3, pn4;
 	JButton btn;
 
-	public UpdatePasswordView(String id) {
+	public UpdatePasswordView(String id,String position) {
 		// TODO Auto-generated constructor stub
 		super("비밀번호 변경");
 
+		this.position = position;
 		this.id = id;
 //		originPw = pw;
 
@@ -125,7 +127,11 @@ public class UpdatePasswordView extends JFrame implements ActionListener {
 
 	public boolean passwordCompare() {
 		boolean test = false;
-		sql = "select password from student where id=?";
+		if(position.equals("student"))
+			sql = "select password from student where id=?";
+		else
+			sql = "select password from professor where id=?";
+		
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, id);
@@ -150,11 +156,15 @@ public class UpdatePasswordView extends JFrame implements ActionListener {
 	}
 
 	public void updatePassword() {
+		if(position.equals("student"))
+			sql = "update student set password = ? where id=?";
+		else
+			sql = "update professor set password = ? where id=?";
 		
-		sql = "update student set password = ?";
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, tf2.getText());
+			pstmt.setString(2, id);
 
 			int result = pstmt.executeUpdate();
 			if (result == 1) {

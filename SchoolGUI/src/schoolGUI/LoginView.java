@@ -129,8 +129,7 @@ public class LoginView extends JFrame implements ActionListener {
 				pw = pwfield.getText();
 				connectDB();
 				if (passwordCompare(0)) {
-					JOptionPane.showMessageDialog(this, "학생 로그인 성공");
-					StudentView st = new StudentView(rs);
+					StudentView st = new StudentView(id);
 					setVisible(false);
 				} else {
 					JOptionPane.showMessageDialog(this, "로그인 실패");
@@ -143,7 +142,8 @@ public class LoginView extends JFrame implements ActionListener {
 				pw = pwfield.getText();
 				connectDB();
 				if (passwordCompare(1)) {
-					JOptionPane.showMessageDialog(this, "교수 로그인 성공");
+					ProfessorView pv = new ProfessorView(id);
+					setVisible(false);
 				} else {
 					JOptionPane.showMessageDialog(this, "로그인 실패");
 				}
