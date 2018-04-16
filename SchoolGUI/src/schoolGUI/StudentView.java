@@ -172,7 +172,7 @@ public class StudentView extends JFrame implements ActionListener {
 				tf5.setText(rs.getString(5));
 				tf6.setText(rs.getString(6));
 				tf7.setText(rs.getString(7));
-				// tf8.setText("**********");
+				 tf8.setText("**********");
 //				pw = rs.getString(8);
 
 			}
