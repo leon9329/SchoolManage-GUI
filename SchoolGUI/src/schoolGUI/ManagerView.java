@@ -120,8 +120,8 @@ public class ManagerView extends JFrame implements ActionListener {
 		} else if (e.getSource().equals(insertBtn)) {
 
 		} else if (e.getSource().equals(deleteBtn)) {
-			JOptionPane.showInputDialog(this, "삭제할 id 입력");
-			delete();
+			String id = JOptionPane.showInputDialog(this, "삭제할 ID");
+			delete(id);
 
 		} else if (e.getSource().equals(exitBtn)) {
 
@@ -129,11 +129,30 @@ public class ManagerView extends JFrame implements ActionListener {
 
 	}
 	
-	public void delete() {
-		JFrame delFrame = new JFrame("삭제");
+	public void delete(String id) {
 		
-		setBounds(300,300,300,300);
-		setVisible(true);
+		if(tab.getSelectedComponent() == tab.getComponent(0)) {
+			sql = "delete from student where id=?";
+			
+		}else if(tab.getSelectedComponent() == tab.getComponent(1)) {
+			sql = "delete from professor where id=?";
+			
+		}else {
+			JOptionPane.showMessageDialog(this, "학생도아니고 교수도 아님");
+		}
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.executeQuery();
+			
+			showStuList();
+			showProList();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.toString();
+		}
+		
+		
 	}
 	
 
