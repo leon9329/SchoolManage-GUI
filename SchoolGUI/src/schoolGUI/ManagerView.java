@@ -36,7 +36,7 @@ public class ManagerView extends JFrame implements ActionListener {
 
 	Vector<String> column = new Vector<String>();
 	Vector<String> column2 = new Vector<String>();
-	DefaultTableModel model,model2;
+	DefaultTableModel model, model2;
 
 	public ManagerView() {
 		super("관리자 모드");
@@ -50,7 +50,7 @@ public class ManagerView extends JFrame implements ActionListener {
 		column.addElement("주소");
 		column.addElement("email");
 		column.addElement("전공");
-		
+
 		column2.addElement("id");
 		column2.addElement("name");
 		column2.addElement("email");
@@ -58,14 +58,13 @@ public class ManagerView extends JFrame implements ActionListener {
 		column2.addElement("address");
 		column2.addElement("phone");
 		column2.addElement("salary");
-		
 
 		model = new DefaultTableModel(column, 0);
 		model2 = new DefaultTableModel(column2, 0);
 
 		studentTable = new JTable(model);
 		studentTable.setCellSelectionEnabled(false);
-	
+
 		professorTable = new JTable(model2);
 		professorTable.setCellSelectionEnabled(false);
 
@@ -84,8 +83,6 @@ public class ManagerView extends JFrame implements ActionListener {
 		pn.add(deleteBtn);
 		pn.add(updateBtn);
 
-	
-
 		pn.add(pn2);
 		pn.add(exitBtn);
 
@@ -100,27 +97,58 @@ public class ManagerView extends JFrame implements ActionListener {
 		setVisible(true);
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
 
-		
 		insertBtn.addActionListener(this);
 		deleteBtn.addActionListener(this);
 		updateBtn.addActionListener(this);
 		exitBtn.addActionListener(this);
-		
+
 		showStuList();
 		showProList();
 
 	}
+	
+	public void insert() {
+		
+	}
+	
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getSource().equals(insertBtn)) {
-			
 
 		} else if (e.getSource().equals(insertBtn)) {
 
 		} else if (e.getSource().equals(deleteBtn)) {
 			String id = JOptionPane.showInputDialog(this, "삭제할 ID");
+
+			if (isStudent()) {//학생 탭일 경우
+				if (studentTable.getRowCount() != 0) {
+					for (int i = 0; i < studentTable.getRowCount(); i++) {
+						if(id.equals(studentTable.getValueAt(i, 0))) {
+							int ans = JOptionPane.showConfirmDialog(this, "정말 삭제하시겠습니까?","삭제확인",JOptionPane.YES_NO_OPTION);
+							if(ans == JOptionPane.YES_OPTION) {
+								model.removeRow(i);
+								JOptionPane.showMessageDialog(this, "삭제되었습니다.");
+							}
+						}
+					}
+				}
+			}else if(!isStudent()) {//교수 탭일 경우
+				if(professorTable.getRowCount() != 0) {
+					for(int i=0; i<professorTable.getRowCount(); i++) {
+						if(id.equals(professorTable.getValueAt(i, 0))) {
+							int ans = JOptionPane.showConfirmDialog(this, "정말 삭제하시겠습니까?","삭제확인",JOptionPane.YES_NO_OPTION);
+							if(ans == JOptionPane.YES_OPTION) {
+								model2.removeRow(i);
+								JOptionPane.showMessageDialog(this, "삭제되었습니다.");
+							}
+						}
+					}
+				}
+			}
+
 			delete(id);
 
 		} else if (e.getSource().equals(exitBtn)) {
@@ -128,43 +156,43 @@ public class ManagerView extends JFrame implements ActionListener {
 		}
 
 	}
-	
+
 	public void delete(String id) {
-		
-		if(tab.getSelectedComponent() == tab.getComponent(0)) {
+
+		if (isStudent()) {
 			sql = "delete from student where id=?";
-			
-		}else if(tab.getSelectedComponent() == tab.getComponent(1)) {
+
+		} else if (!isStudent()) {
 			sql = "delete from professor where id=?";
-			
-		}else {
+
+		} else {
 			JOptionPane.showMessageDialog(this, "학생도아니고 교수도 아님");
 		}
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, id);
 			pstmt.executeQuery();
-			
-			showStuList();
-			showProList();
+			// showStuList();
+			// showProList();
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.toString();
 		}
-		
-		
+
 	}
+	
 	
 
 	public void showStuList() {
+
 		sql = "select * from Student";
 		try {
 			pstmt = con.prepareStatement(sql);
-//			System.out.println("sql전송 단계 끝");
-//			pstmt.setString(1, "ms");
-//			System.out.println("아디 보내기과정 끝");
+			// System.out.println("sql전송 단계 끝");
+			// pstmt.setString(1, "ms");
+			// System.out.println("아디 보내기과정 끝");
 			rs = pstmt.executeQuery();
-//			System.out.println("결과받기 과정");
+			// System.out.println("결과받기 과정");
 			// id,학번,이름,전화번호,주소,메일,전공
 			while (rs.next()) {
 				String id = rs.getString(1);
@@ -175,29 +203,29 @@ public class ManagerView extends JFrame implements ActionListener {
 				String email = rs.getString(6);
 				String major = rs.getString(7);
 
-//				System.out.println(
-//						id + ", " + schoolNum + ", " + name + ", " + phone + ", " + address + ", " + email + ", " + major);
+				// System.out.println(
+				// id + ", " + schoolNum + ", " + name + ", " + phone + ", " + address + ", " +
+				// email + ", " + major);
 				String data[] = { id, schoolNum, name, phone, address, email, major };
 				model.addRow(data);
-//				System.out.println("add Row 끝");
+				// System.out.println("add Row 끝");
 			}
-
 
 		} catch (Exception e) {
 			e.toString();
 		}
 
 	}
-	
+
 	public void showProList() {
 		sql = "select * from professor";
 		try {
 			pstmt = con.prepareStatement(sql);
-			
+
 			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				
+
+			while (rs.next()) {
+
 				String id = rs.getString(1);
 				String name = rs.getString(2);
 				String email = rs.getString(3);
@@ -205,8 +233,8 @@ public class ManagerView extends JFrame implements ActionListener {
 				String address = rs.getString(5);
 				String phone = rs.getString(6);
 				String salary = rs.getString(7);
-				
-				String data[] = {id,name,email,age,address,phone,salary};
+
+				String data[] = { id, name, email, age, address, phone, salary };
 				model2.addRow(data);
 			}
 		} catch (Exception e) {
@@ -231,6 +259,16 @@ public class ManagerView extends JFrame implements ActionListener {
 			// TODO: handle exception
 			System.out.println("connection failed");
 		}
+	}
+	
+	public boolean isStudent() {//학생탭인지 확인하는 메소드
+		boolean result = false;
+		if(tab.getSelectedComponent() == tab.getComponent(0))
+			result = true;
+		else 
+			result = false;
+		
+		return result;
 	}
 
 	public static void main(String[] args) {
