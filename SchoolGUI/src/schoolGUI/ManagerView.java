@@ -23,9 +23,8 @@ import javax.swing.table.DefaultTableModel;
 
 public class ManagerView extends JFrame implements ActionListener {
 
-	JFrame jf; //학생,교수 추가버튼 눌렀을 때 나타나는 서브 프레임
-	
-	
+	JFrame jf; // 학생,교수 추가버튼 눌렀을 때 나타나는 서브 프레임
+
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521:xe";
 
@@ -45,12 +44,12 @@ public class ManagerView extends JFrame implements ActionListener {
 	Vector<String> column2 = new Vector<String>();
 	DefaultTableModel model, model2;
 
-	//---------서브 프레임에서 사용할 변수들------------------//	
-	int size = 8;		//textField의 갯수. 학생의경우 id,학번,이름,전화번호 등등
+	// ---------서브 프레임에서 사용할 변수들------------------//
+	int size = 8; // textField의 갯수. 학생의경우 id,학번,이름,전화번호 등등
 	JTextField tf[] = new JTextField[size];
 	JLabel lb[] = new JLabel[size];
-	JButton btn1,btn2;//서브프레임에 등록,취소 버튼
-//-------------------------------------------------//
+	JButton btn1, btn2;// 서브프레임에 등록,취소 버튼
+	// -------------------------------------------------//
 
 	public ManagerView() {
 		super("관리자 모드");
@@ -123,13 +122,13 @@ public class ManagerView extends JFrame implements ActionListener {
 
 	public void insert() {
 		// id,학번,이름,전화번호,주소,이메일,전공
-		//id,name,eamil,age,address,phone,salary,password
-		if(isStudent()) {
+		// id,name,eamil,age,address,phone,salary,password
+		if (isStudent()) {
 			sql = "insert into student values(?,?,?,?,?,?,?,?)";
-		}else {
+		} else {
 			sql = "insert into professor values(?,?,?,?,?,?,?,?)";
 		}
-			
+
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, tf[0].getText());
@@ -140,20 +139,20 @@ public class ManagerView extends JFrame implements ActionListener {
 			pstmt.setString(6, tf[5].getText());
 			pstmt.setString(7, tf[6].getText());
 			pstmt.setString(8, tf[7].getText());
-			
+
 			int result = pstmt.executeUpdate();
-			if(result == 1) {
+			if (result == 1) {
 				JOptionPane.showMessageDialog(this, "데이터 입력 성공");
 			}
-			
-			String data[] = {tf[0].getText(),tf[1].getText(),tf[2].getText(),tf[3].getText(),
-					tf[4].getText(),tf[5].getText(),tf[6].getText(),tf[7].getText()};
-		
-			if(isStudent())
+
+			String data[] = { tf[0].getText(), tf[1].getText(), tf[2].getText(), tf[3].getText(), tf[4].getText(),
+					tf[5].getText(), tf[6].getText(), tf[7].getText() };
+
+			if (isStudent())
 				model.addRow(data);
 			else
 				model2.addRow(data);
-		
+
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.toString();
@@ -162,108 +161,118 @@ public class ManagerView extends JFrame implements ActionListener {
 
 	public void insertView() {
 
-		String stuColumn[] = {"ID","학번","name","phone","address","email","major","password"};
-		String proColumn[] = {"ID","name","eamil","age","address","phone","salary","password"};
-		
-		JPanel pn1,pn2,pn3,pn4;
-		
+		String stuColumn[] = { "ID", "학번", "name", "phone", "address", "email", "major", "password" };
+		String proColumn[] = { "ID", "name", "eamil", "age", "address", "phone", "salary", "password" };
+
+		JPanel pn1, pn2, pn3, pn4;
+
 		pn1 = new JPanel(new GridLayout(1, 2));
 		pn2 = new JPanel(new GridLayout(8, 1));
 		pn3 = new JPanel(new GridLayout(8, 1));
 		pn4 = new JPanel();
-		
-		if(isStudent()) {
-			
+
+		if (isStudent()) {
+
 			jf = new JFrame("학생 추가");
 
-			for(int i=0; i<size; i++) {
-				lb[i] = new JLabel(stuColumn[i],JLabel.CENTER);
+			for (int i = 0; i < size; i++) {
+				lb[i] = new JLabel(stuColumn[i], JLabel.CENTER);
 				tf[i] = new JTextField(10);
 				pn2.add(lb[i]);
 				pn3.add(tf[i]);
 			}
-		}else {
+		} else {
 			jf = new JFrame("교수 추가");
-			
-			for(int i=0; i<size; i++) {
-				lb[i] = new JLabel(proColumn[i],JLabel.CENTER);
+
+			for (int i = 0; i < size; i++) {
+				lb[i] = new JLabel(proColumn[i], JLabel.CENTER);
 				tf[i] = new JTextField(10);
 				pn2.add(lb[i]);
 				pn3.add(tf[i]);
 			}
 		}
-			
-			btn1 = new JButton("등록");
-			btn2 = new JButton("취소");
 
-			pn4.add(btn1);
-			pn4.add(btn2);
-			
-			pn1.add(pn2);
-			pn1.add(pn3);
-			
-			jf.add(pn1);
-			jf.add(pn4,"South");
-			jf.setResizable(false);
-			jf.setBounds(800, 300, 300, 400);
-			jf.setVisible(true);
-			jf.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-			
-			btn1.addActionListener(this);
-			btn2.addActionListener(this);
-		
+		btn1 = new JButton("등록");
+		btn2 = new JButton("취소");
+
+		pn4.add(btn1);
+		pn4.add(btn2);
+
+		pn1.add(pn2);
+		pn1.add(pn3);
+
+		jf.add(pn1);
+		jf.add(pn4, "South");
+		jf.setResizable(false);
+		jf.setBounds(800, 300, 300, 400);
+		jf.setVisible(true);
+		jf.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+		btn1.addActionListener(this);
+		btn2.addActionListener(this);
+
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+
 		// TODO Auto-generated method stub
 		if (e.getSource().equals(insertBtn)) {
 			insertView();
-		} else if (e.getSource().equals(insertBtn)) {
-
 		} else if (e.getSource().equals(deleteBtn)) {
+
 			String id = JOptionPane.showInputDialog(this, "삭제할 ID");
 
 			if (isStudent()) {// 학생 탭일 경우
 				if (studentTable.getRowCount() != 0) {
 					for (int i = 0; i < studentTable.getRowCount(); i++) {
-						if (id.equals(studentTable.getValueAt(i, 0))) {
-							int ans = JOptionPane.showConfirmDialog(this, "정말 삭제하시겠습니까?", "삭제확인",
-									JOptionPane.YES_NO_OPTION);
-							if (ans == JOptionPane.YES_OPTION) {
-								model.removeRow(i);
-								JOptionPane.showMessageDialog(this, "삭제되었습니다.");
-							}else {
-								break;
+						try {
+							if (id.equals(studentTable.getValueAt(i, 0))) {
+								int ans = JOptionPane.showConfirmDialog(this, "정말 삭제하시겠습니까?", "삭제확인",
+										JOptionPane.YES_NO_OPTION);
+								if (ans == JOptionPane.YES_OPTION) {
+									model.removeRow(i);
+									JOptionPane.showMessageDialog(this, "삭제되었습니다.");
+								}
 							}
-						}else {
-							break;
+
+						} catch (NullPointerException e2) {
+							// TODO: handle exception
+							JOptionPane.showMessageDialog(this, "취소 되었습니다.");
+							return;
+						}
+					}
+				} else if (!isStudent()) {// 교수 탭일 경우
+					if (professorTable.getRowCount() != 0) {
+						for (int i = 0; i < professorTable.getRowCount(); i++) {
+							if (id.equals(professorTable.getValueAt(i, 0))) {
+								int ans = JOptionPane.showConfirmDialog(this, "정말 삭제하시겠습니까?", "삭제확인",
+										JOptionPane.YES_NO_OPTION);
+								if (ans == JOptionPane.YES_OPTION) {
+									model2.removeRow(i);
+									JOptionPane.showMessageDialog(this, "삭제되었습니다.");
+								}
+							}
 						}
 					}
 				}
-			} else if (!isStudent()) {// 교수 탭일 경우
-				if (professorTable.getRowCount() != 0) {
-					for (int i = 0; i < professorTable.getRowCount(); i++) {
-						if (id.equals(professorTable.getValueAt(i, 0))) {
-							int ans = JOptionPane.showConfirmDialog(this, "정말 삭제하시겠습니까?", "삭제확인",
-									JOptionPane.YES_NO_OPTION);
-							if (ans == JOptionPane.YES_OPTION) {
-								model2.removeRow(i);
-								JOptionPane.showMessageDialog(this, "삭제되었습니다.");
-							}
-						}
-					}
-				}
+
+				delete(id);
+
+			} else if (e.getSource().equals(exitBtn)) {
+
 			}
-
-			delete(id);
-
-		} else if (e.getSource().equals(exitBtn)) {
-
-		}else if(e.getSource().equals(btn1) || e.getSource().equals(btn2)) {
-			insert();
-			jf.setVisible(false);
+		} else if (e.getSource().equals(btn1)) {
+			for(int i=0; i<size; i++) {
+				if(tf[i].getText().equals(""));
+					JOptionPane.showMessageDialog(this, lb[i].getText()+"를 입력하세요");
+			}
+				insert();
+				jf.setVisible(false);
 			
+			
+		} else if (e.getSource().equals(btn2)) {
+			jf.setVisible(false);
 		}
 
 	}
@@ -295,9 +304,9 @@ public class ManagerView extends JFrame implements ActionListener {
 		sql = "select * from Student";
 		try {
 			pstmt = con.prepareStatement(sql);
-			
+
 			rs = pstmt.executeQuery();
-			
+
 			while (rs.next()) {
 				String id = rs.getString(1);
 				String schoolNum = rs.getString(2);
