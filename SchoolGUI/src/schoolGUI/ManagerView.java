@@ -20,6 +20,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.xml.ws.handler.MessageContext;
 
 public class ManagerView extends JFrame implements ActionListener {
 
@@ -217,16 +218,16 @@ public class ManagerView extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		// TODO Auto-generated method stub
-		if (e.getSource().equals(insertBtn)) {
+		if (e.getSource().equals(insertBtn)) {// 추가
 			insertView();
-		} else if (e.getSource().equals(deleteBtn)) {
+		} else if (e.getSource().equals(deleteBtn)) {// 삭제
 
 			String id = JOptionPane.showInputDialog(this, "삭제할 ID");
 
-			if (isStudent()) {// 학생 탭일 경우
-				if (studentTable.getRowCount() != 0) {
-					for (int i = 0; i < studentTable.getRowCount(); i++) {
-						try {
+			try {
+				if (isStudent()) {// 학생 탭일 경우
+					if (studentTable.getRowCount() != 0) {
+						for (int i = 0; i < studentTable.getRowCount(); i++) {
 							if (id.equals(studentTable.getValueAt(i, 0))) {
 								int ans = JOptionPane.showConfirmDialog(this, "정말 삭제하시겠습니까?", "삭제확인",
 										JOptionPane.YES_NO_OPTION);
@@ -236,10 +237,6 @@ public class ManagerView extends JFrame implements ActionListener {
 								}
 							}
 
-						} catch (NullPointerException e2) {
-							// TODO: handle exception
-							JOptionPane.showMessageDialog(this, "취소 되었습니다.");
-							return;
 						}
 					}
 				} else if (!isStudent()) {// 교수 탭일 경우
@@ -256,25 +253,55 @@ public class ManagerView extends JFrame implements ActionListener {
 						}
 					}
 				}
-
-				delete(id);
-
-			} else if (e.getSource().equals(exitBtn)) {
-
+			} catch (NullPointerException e2) {
+				// TODO: handle exception
+				JOptionPane.showMessageDialog(this, "취소 되었습니다.");
+				return;
 			}
+
+			delete(id);
+
+		} else if (e.getSource().equals(updateBtn))
+
+		{// 수정 버튼
+			String id = JOptionPane.showInputDialog("수정할 ID");
+			
+
+		} else if (e.getSource().equals(exitBtn)) {// 종료 버튼
+			System.exit(0);
+
 		} else if (e.getSource().equals(btn1)) {
-			for(int i=0; i<size; i++) {
-				if(tf[i].getText().equals(""));
-					JOptionPane.showMessageDialog(this, lb[i].getText()+"를 입력하세요");
-			}
+
+			if (tf[0].getText().equals("")) {
+				JOptionPane.showMessageDialog(this, lb[0].getText() + "를 입력하세요");
+			} else if (tf[1].getText().equals("")) {
+				JOptionPane.showMessageDialog(this, lb[1].getText() + "를 입력하세요");
+
+			} else if (tf[2].getText().equals("")) {
+				JOptionPane.showMessageDialog(this, lb[2].getText() + "를 입력하세요");
+
+			} else if (tf[3].getText().equals("")) {
+				JOptionPane.showMessageDialog(this, lb[3].getText() + "를 입력하세요");
+
+			} else if (tf[4].getText().equals("")) {
+				JOptionPane.showMessageDialog(this, lb[4].getText() + "를 입력하세요");
+
+			} else if (tf[5].getText().equals("")) {
+				JOptionPane.showMessageDialog(this, lb[5].getText() + "를 입력하세요");
+
+			} else if (tf[6].getText().equals("")) {
+				JOptionPane.showMessageDialog(this, lb[6].getText() + "를 입력하세요");
+
+			} else if (tf[7].getText().equals("")) {
+				JOptionPane.showMessageDialog(this, lb[7].getText() + "를 입력하세요");
+
+			} else {
 				insert();
 				jf.setVisible(false);
-			
-			
+			}
 		} else if (e.getSource().equals(btn2)) {
 			jf.setVisible(false);
 		}
-
 	}
 
 	public void delete(String id) {
