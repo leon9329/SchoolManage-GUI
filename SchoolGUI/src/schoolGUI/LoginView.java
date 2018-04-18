@@ -155,6 +155,7 @@ public class LoginView extends JFrame implements ActionListener {
 				connectDB();
 				if (passwordCompare(2)) {
 					JOptionPane.showMessageDialog(this, "관리자 로그인 성공");
+					ManagerView mgv = new ManagerView();
 				} else {
 					JOptionPane.showMessageDialog(this, "로그인 실패");
 				}

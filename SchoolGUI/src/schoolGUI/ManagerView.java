@@ -264,10 +264,26 @@ public class ManagerView extends JFrame implements ActionListener {
 		} else if (e.getSource().equals(updateBtn))
 
 		{// 수정 버튼
-			String id = JOptionPane.showInputDialog("수정할 ID");
+			String id = JOptionPane.showInputDialog("ID 를 입력하세요");
+			updateView();
 			
 
 		} else if (e.getSource().equals(exitBtn)) {// 종료 버튼
+			
+			try {
+				if(pstmt != null) {
+					pstmt.close();
+					System.out.println("pstmt 종료");
+				}
+				if(con != null) {
+					con.close();
+					System.out.println("connection 종료");
+				}
+				
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+				
 			System.exit(0);
 
 		} else if (e.getSource().equals(btn1)) {
@@ -302,6 +318,22 @@ public class ManagerView extends JFrame implements ActionListener {
 		} else if (e.getSource().equals(btn2)) {
 			jf.setVisible(false);
 		}
+	}
+	
+	public void update() {
+		
+		
+	}
+	
+	public void updateView() {
+		JFrame jf = new JFrame("수정");
+		pn = new JPanel();
+		
+	
+		jf.setResizable(false);
+		jf.setBounds(300,300,300,300);
+		jf.setVisible(true);
+		jf.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 
 	public void delete(String id) {
