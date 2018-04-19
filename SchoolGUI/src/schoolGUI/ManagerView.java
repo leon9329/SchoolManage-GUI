@@ -265,7 +265,7 @@ public class ManagerView extends JFrame implements ActionListener {
 
 		{// 수정 버튼
 			String id = JOptionPane.showInputDialog("ID 를 입력하세요");
-			updateView();
+			
 			
 
 		} else if (e.getSource().equals(exitBtn)) {// 종료 버튼
@@ -320,21 +320,8 @@ public class ManagerView extends JFrame implements ActionListener {
 		}
 	}
 	
-	public void update() {
-		
-		
-	}
 	
-	public void updateView() {
-		JFrame jf = new JFrame("수정");
-		pn = new JPanel();
-		
 	
-		jf.setResizable(false);
-		jf.setBounds(300,300,300,300);
-		jf.setVisible(true);
-		jf.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-	}
 
 	public void delete(String id) {
 
