@@ -1,7 +1,6 @@
 package schoolGUI;
 
 import java.awt.GridLayout;
-import java.awt.JobAttributes;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -20,7 +19,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import javax.xml.ws.handler.MessageContext;
 
 public class ManagerView extends JFrame implements ActionListener {
 
@@ -261,11 +259,18 @@ public class ManagerView extends JFrame implements ActionListener {
 
 			delete(id);
 
-		} else if (e.getSource().equals(updateBtn))
-
-		{// 수정 버튼
+		} else if (e.getSource().equals(updateBtn)){// 수정 버튼
+			
+			String position = null;
 			String id = JOptionPane.showInputDialog("ID 를 입력하세요");
 			
+			if(isStudent()) 
+				position = "학생";
+			else
+				position = "교수";
+			
+				UpdateInfo_manage updateInfo = new UpdateInfo_manage(id,position);
+				System.out.println(position + " 조회");
 			
 
 		} else if (e.getSource().equals(exitBtn)) {// 종료 버튼
@@ -319,9 +324,6 @@ public class ManagerView extends JFrame implements ActionListener {
 			jf.setVisible(false);
 		}
 	}
-	
-	
-	
 
 	public void delete(String id) {
 
