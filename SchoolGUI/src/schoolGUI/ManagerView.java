@@ -41,6 +41,7 @@ public class ManagerView extends JFrame implements ActionListener {
 
 	Vector<String> column = new Vector<String>();
 	Vector<String> column2 = new Vector<String>();
+	
 	DefaultTableModel model, model2;
 
 	// ---------서브 프레임에서 사용할 변수들------------------//
@@ -119,44 +120,7 @@ public class ManagerView extends JFrame implements ActionListener {
 
 	}
 
-	public void insert() {
-		// id,학번,이름,전화번호,주소,이메일,전공
-		// id,name,eamil,age,address,phone,salary,password
-		if (isStudent()) {
-			sql = "insert into student values(?,?,?,?,?,?,?,?)";
-		} else {
-			sql = "insert into professor values(?,?,?,?,?,?,?,?)";
-		}
-
-		try {
-			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, tf[0].getText());
-			pstmt.setString(2, tf[1].getText());
-			pstmt.setString(3, tf[2].getText());
-			pstmt.setString(4, tf[3].getText());
-			pstmt.setString(5, tf[4].getText());
-			pstmt.setString(6, tf[5].getText());
-			pstmt.setString(7, tf[6].getText());
-			pstmt.setString(8, tf[7].getText());
-
-			int result = pstmt.executeUpdate();
-			if (result == 1) {
-				JOptionPane.showMessageDialog(this, "데이터 입력 성공");
-			}
-
-			String data[] = { tf[0].getText(), tf[1].getText(), tf[2].getText(), tf[3].getText(), tf[4].getText(),
-					tf[5].getText(), tf[6].getText(), tf[7].getText() };
-
-			if (isStudent())
-				model.addRow(data);
-			else
-				model2.addRow(data);
-
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.toString();
-		}
-	}
+	
 
 	public void insertView() {
 
@@ -258,6 +222,7 @@ public class ManagerView extends JFrame implements ActionListener {
 			}
 
 			delete(id);
+			
 
 		} else if (e.getSource().equals(updateBtn)){// 수정 버튼
 			
@@ -270,26 +235,13 @@ public class ManagerView extends JFrame implements ActionListener {
 				position = "교수";
 			
 				UpdateInfo_manage updateInfo = new UpdateInfo_manage(id,position);
-				System.out.println(position + " 조회");
-			
+				
+				
 
 		} else if (e.getSource().equals(exitBtn)) {// 종료 버튼
-			
-			try {
-				if(pstmt != null) {
-					pstmt.close();
-					System.out.println("pstmt 종료");
-				}
-				if(con != null) {
-					con.close();
-					System.out.println("connection 종료");
-				}
-				
-			} catch (Exception e2) {
-				// TODO: handle exception
-			}
-				
-			System.exit(0);
+			updateShow();
+			closeDB();
+//			System.exit(0);
 
 		} else if (e.getSource().equals(btn1)) {
 
@@ -324,6 +276,54 @@ public class ManagerView extends JFrame implements ActionListener {
 			jf.setVisible(false);
 		}
 	}
+	
+	public void updateShow() {
+		if(isStudent()) {
+			model.setColumnCount(0);
+			
+		}else {
+			model2.fireTableDataChanged();
+		}
+	}
+	
+	public void insert() {
+		// id,학번,이름,전화번호,주소,이메일,전공
+		// id,name,eamil,age,address,phone,salary,password
+		if (isStudent()) {
+			sql = "insert into student values(?,?,?,?,?,?,?,?)";
+		} else {
+			sql = "insert into professor values(?,?,?,?,?,?,?,?)";
+		}
+
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, tf[0].getText());
+			pstmt.setString(2, tf[1].getText());
+			pstmt.setString(3, tf[2].getText());
+			pstmt.setString(4, tf[3].getText());
+			pstmt.setString(5, tf[4].getText());
+			pstmt.setString(6, tf[5].getText());
+			pstmt.setString(7, tf[6].getText());
+			pstmt.setString(8, tf[7].getText());
+
+			int result = pstmt.executeUpdate();
+			if (result == 1) {
+				JOptionPane.showMessageDialog(this, "데이터 입력 성공");
+			}
+
+			String data[] = { tf[0].getText(), tf[1].getText(), tf[2].getText(), tf[3].getText(), tf[4].getText(),
+					tf[5].getText(), tf[6].getText(), tf[7].getText() };
+
+			if (isStudent())
+				model.addRow(data);
+			else
+				model2.addRow(data);
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.toString();
+		}
+	}
 
 	public void delete(String id) {
 
@@ -344,10 +344,10 @@ public class ManagerView extends JFrame implements ActionListener {
 			// TODO: handle exception
 			e.toString();
 		}
-
 	}
 
 	public void showStuList() {
+	
 
 		sql = "select * from Student";
 		try {
@@ -415,6 +415,22 @@ public class ManagerView extends JFrame implements ActionListener {
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("connection failed");
+		}
+	}
+	
+	public void closeDB() {
+		try {
+			if(pstmt != null) {
+				pstmt.close();
+				System.out.println("pstmt 종료");
+			}
+			if(con != null) {
+				con.close();
+				System.out.println("connection 종료");
+			}
+			
+		} catch (Exception e2) {
+			// TODO: handle exception
 		}
 	}
 

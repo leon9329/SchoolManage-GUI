@@ -112,28 +112,19 @@ public class UpdateInfo_manage extends JFrame implements ActionListener {
 		// TODO Auto-generated method stub
 		if (e.getSource() == finishBtn) {
 			updateInfo();
+			
 			for(int i=0; i<size-1; i++)
 			{
 				tf[i].setEditable(false);
 			}
-			return;
+			closeDB();
+			jf.setVisible(false);
+			
 
 		} else if (e.getSource() == cancelBtn) {
-			try {
-				if(pstmt != null) {
-					pstmt.close();
-					System.out.println("pstmt 종료");
-				}
-				if(con != null) {
-					con.close();
-					System.out.println("connection 종료");
-				}
-				
-			} catch (Exception e2) {
-				// TODO: handle exception
-			}
-				
-			return;
+			closeDB();
+			jf.setVisible(false);	
+			
 
 		} else {
 			for (int i = 0; i < size - 1; i++) {
@@ -143,6 +134,19 @@ public class UpdateInfo_manage extends JFrame implements ActionListener {
 				}
 			}
 			
+		}
+	}
+	
+	public void closeDB() {
+		try {
+			if(pstmt.isClosed())
+				pstmt.close();
+			
+			if(con.isClosed())
+				con.close();
+		} catch (Exception e) {
+			e.toString();
+			// TODO: handle exception
 		}
 	}
 
@@ -171,14 +175,15 @@ public class UpdateInfo_manage extends JFrame implements ActionListener {
 			
 			int result = pstmt.executeUpdate();
 			if(result == 1) {
-				System.out.println("성공");
+				JOptionPane.showMessageDialog(this, "success");
 			}else {
-				System.out.println("실패");
+				JOptionPane.showMessageDialog(this, "failed");
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.toString();
 		}
+		
 	}
 
 	public void showInfo() {
