@@ -160,7 +160,7 @@ public class UpdateInfo_manage extends JFrame implements ActionListener {
 			sql = "update student set name=?,phone=?,address=?,email=?,major=? where id=?";
 			System.out.println("update 학생");
 		} else if (position.equals("교수")) {
-
+			
 		} else {
 			System.out.println("error");
 		}

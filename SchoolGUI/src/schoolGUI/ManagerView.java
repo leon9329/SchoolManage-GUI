@@ -41,7 +41,7 @@ public class ManagerView extends JFrame implements ActionListener {
 
 	Vector<String> column = new Vector<String>();
 	Vector<String> column2 = new Vector<String>();
-	
+
 	DefaultTableModel model, model2;
 
 	// ---------서브 프레임에서 사용할 변수들------------------//
@@ -50,6 +50,9 @@ public class ManagerView extends JFrame implements ActionListener {
 	JLabel lb[] = new JLabel[size];
 	JButton btn1, btn2;// 서브프레임에 등록,취소 버튼
 	// -------------------------------------------------//
+
+	// 수정할 대상의 id와 신분
+	String id, position;
 
 	public ManagerView() {
 		super("관리자 모드");
@@ -119,8 +122,6 @@ public class ManagerView extends JFrame implements ActionListener {
 		showProList();
 
 	}
-
-	
 
 	public void insertView() {
 
@@ -222,26 +223,25 @@ public class ManagerView extends JFrame implements ActionListener {
 			}
 
 			delete(id);
-			
 
-		} else if (e.getSource().equals(updateBtn)){// 수정 버튼
-			
-			String position = null;
-			String id = JOptionPane.showInputDialog("ID 를 입력하세요");
-			
-			if(isStudent()) 
+		} else if (e.getSource().equals(updateBtn)) {// 수정 버튼
+
+			position = null;
+			id = JOptionPane.showInputDialog("ID 를 입력하세요");
+
+			if (isStudent())
 				position = "학생";
 			else
 				position = "교수";
-			
-				UpdateInfo_manage updateInfo = new UpdateInfo_manage(id,position);
-				
-				
+
+			UpdateInfo_manage updateInfo = new UpdateInfo_manage(id, position);
 
 		} else if (e.getSource().equals(exitBtn)) {// 종료 버튼
+
 			updateShow();
 			closeDB();
-//			System.exit(0);
+
+			// System.exit(0);
 
 		} else if (e.getSource().equals(btn1)) {
 
@@ -276,16 +276,67 @@ public class ManagerView extends JFrame implements ActionListener {
 			jf.setVisible(false);
 		}
 	}
-	
+
 	public void updateShow() {
-		if(isStudent()) {
-			model.setColumnCount(0);
-			
-		}else {
-			model2.fireTableDataChanged();
+		connectDB();
+
+		try {
+			if (position.equals("학생")) {
+				sql = "select * from student where id=?";
+			} else {
+				sql = "select * from professor where id=?";
+			}
+
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				String id = rs.getString(1);
+				String schoolNum = rs.getString(2);
+				String name = rs.getString(3);
+				String phone = rs.getString(4);
+				String address = rs.getString(5);
+				String email = rs.getString(6);
+				String major = rs.getString(7);
+
+				String data[] = { id, schoolNum, name, phone, address, email, major };
+
+				if (position.equals("학생")) {
+					for (int i = 0; i < model.getRowCount(); i++) {
+						if (id.equals(studentTable.getValueAt(i, 0))) {
+							studentTable.setValueAt(id, i, 0);
+							studentTable.setValueAt(schoolNum, i, 1);
+							studentTable.setValueAt(name, i, 2);
+							studentTable.setValueAt(phone, i, 3);
+							studentTable.setValueAt(address, i, 4);
+							studentTable.setValueAt(email, i, 5);
+							studentTable.setValueAt(major, i, 6);
+						}
+					}
+				}else if(position.equals("교수")){
+					for (int i = 0; i < model2.getRowCount(); i++) {
+						if (id.equals(professorTable.getValueAt(i, 0))) {
+							professorTable.setValueAt(rs.getString(1), i, 0);
+							professorTable.setValueAt(rs.getString(2), i, 1);
+							professorTable.setValueAt(rs.getString(3), i, 2);
+							professorTable.setValueAt(rs.getString(4), i, 3);
+							professorTable.setValueAt(rs.getString(5), i, 4);
+							professorTable.setValueAt(rs.getString(6), i, 5);
+							professorTable.setValueAt(rs.getString(7), i, 6);
+						}
+					}
+				}
+
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.toString();
 		}
+
 	}
-	
+
 	public void insert() {
 		// id,학번,이름,전화번호,주소,이메일,전공
 		// id,name,eamil,age,address,phone,salary,password
@@ -347,7 +398,6 @@ public class ManagerView extends JFrame implements ActionListener {
 	}
 
 	public void showStuList() {
-	
 
 		sql = "select * from Student";
 		try {
@@ -417,18 +467,18 @@ public class ManagerView extends JFrame implements ActionListener {
 			System.out.println("connection failed");
 		}
 	}
-	
+
 	public void closeDB() {
 		try {
-			if(pstmt != null) {
+			if (pstmt != null) {
 				pstmt.close();
 				System.out.println("pstmt 종료");
 			}
-			if(con != null) {
+			if (con != null) {
 				con.close();
 				System.out.println("connection 종료");
 			}
-			
+
 		} catch (Exception e2) {
 			// TODO: handle exception
 		}
