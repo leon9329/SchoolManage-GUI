@@ -1,6 +1,7 @@
 package schoolGUI;
 
 import java.awt.GridLayout;
+import java.awt.JobAttributes;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -36,7 +37,7 @@ public class ManagerView extends JFrame implements ActionListener {
 	JTabbedPane tab = new JTabbedPane();
 	JTable studentTable, professorTable;
 	JScrollPane sp1, sp2;
-	JButton insertBtn, deleteBtn, updateBtn, exitBtn;
+	JButton insertBtn, deleteBtn, updateBtn, exitBtn, renewBtn;
 	JPanel pn, pn2;
 
 	Vector<String> column = new Vector<String>();
@@ -91,6 +92,7 @@ public class ManagerView extends JFrame implements ActionListener {
 		deleteBtn = new JButton("삭제");
 		updateBtn = new JButton("수정");
 		exitBtn = new JButton("종료");
+		renewBtn = new JButton("갱신");
 
 		pn = new JPanel();
 		pn2 = new JPanel();
@@ -100,6 +102,7 @@ public class ManagerView extends JFrame implements ActionListener {
 		pn.add(updateBtn);
 
 		pn.add(pn2);
+		pn.add(renewBtn);
 		pn.add(exitBtn);
 
 		tab.addTab("학생", sp1);
@@ -116,6 +119,7 @@ public class ManagerView extends JFrame implements ActionListener {
 		insertBtn.addActionListener(this);
 		deleteBtn.addActionListener(this);
 		updateBtn.addActionListener(this);
+		renewBtn.addActionListener(this);
 		exitBtn.addActionListener(this);
 
 		showStuList();
@@ -227,21 +231,34 @@ public class ManagerView extends JFrame implements ActionListener {
 		} else if (e.getSource().equals(updateBtn)) {// 수정 버튼
 
 			position = null;
+			
 			id = JOptionPane.showInputDialog("ID 를 입력하세요");
-
-			if (isStudent())
-				position = "학생";
-			else
-				position = "교수";
-
-			UpdateInfo_manage updateInfo = new UpdateInfo_manage(id, position);
-
-		} else if (e.getSource().equals(exitBtn)) {// 종료 버튼
+		
+			
+			if (isStudent()) {
+				for (int i = 0; i < model.getRowCount(); i++) {
+					if (id.equals(model.getValueAt(i, 0))) {
+						UpdateInfo_manage updateInfo = new UpdateInfo_manage(id, "학생");
+					}
+				}
+			} {
+				for (int i = 0; i < model2.getRowCount(); i++) {
+					if (id.equals(model2.getValueAt(i, 0))) {
+						UpdateInfo_manage updateInfo = new UpdateInfo_manage(id, "교수");
+					}else {
+						
+						JOptionPane.showMessageDialog(this, "ID not exist");
+					}
+				}
+			}
+		} else if (e.getSource().equals(renewBtn)) {// 갱신 버튼
 
 			updateShow();
-			closeDB();
 
-			// System.exit(0);
+		} else if (e.getSource().equals(exitBtn)) {
+
+			closeDB();
+			System.exit(0);
 
 		} else if (e.getSource().equals(btn1)) {
 
@@ -314,7 +331,7 @@ public class ManagerView extends JFrame implements ActionListener {
 							studentTable.setValueAt(major, i, 6);
 						}
 					}
-				}else if(position.equals("교수")){
+				} else if (position.equals("교수")) {
 					for (int i = 0; i < model2.getRowCount(); i++) {
 						if (id.equals(professorTable.getValueAt(i, 0))) {
 							professorTable.setValueAt(rs.getString(1), i, 0);
